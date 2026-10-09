@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { i18n } from '@/i18n'
+import { getLocale, t } from '@/i18n'
 
 const baseURL = import.meta.env.VITE_API_BASE || '/api/v1'
 
@@ -25,7 +25,7 @@ api.interceptors.response.use(
       localStorage.removeItem('ls_admin_access')
       localStorage.removeItem('ls_admin_refresh')
       if (!window.location.pathname.includes('/login')) {
-        window.location.href = '/login'
+        window.location.href = `${import.meta.env.BASE_URL}login`.replace(/\/{2,}/g, '/')
       }
     }
     return Promise.reject(error)
@@ -35,12 +35,12 @@ api.interceptors.response.use(
 /** Pick eng/rus from LocalizedText or string detail. */
 export function localizeError(error) {
   const detail = error?.response?.data?.detail
-  const locale = i18n.global.locale.value === 'ru' ? 'rus' : 'eng'
+  const locale = getLocale() === 'ru' ? 'rus' : 'eng'
   if (detail && typeof detail === 'object') {
     return detail[locale] || detail.eng || detail.rus || JSON.stringify(detail)
   }
   if (typeof detail === 'string') return detail
-  return error?.message || i18n.global.t('common.error')
+  return error?.message || t('common.error')
 }
 
 export async function phoneLogin(phone, password) {
@@ -55,7 +55,7 @@ export async function fetchMe() {
 
 export async function fetchFaqAdmin() {
   const { data } = await api.get('/faq/admin/all')
-  return data.items || []
+  return data.data || data.items || []
 }
 
 export async function createFaq(payload) {
@@ -78,6 +78,25 @@ export async function fetchAdsSlots() {
   return data
 }
 
+export async function updateAdsSlot(id, payload) {
+  const { data } = await api.patch(`/ads/slots/${id}/manage`, payload)
+  return data
+}
+
+export async function uploadAdsSlotMedia(id, { file, targetCountry, hours }) {
+  const form = new FormData()
+  form.append('image', file)
+  if (targetCountry) form.append('target_country', targetCountry)
+  if (hours) form.append('hours', String(hours))
+  const { data } = await api.post(`/ads/slots/${id}/media`, form)
+  return data
+}
+
+export async function clearAdsSlot(id) {
+  const { data } = await api.post(`/ads/slots/${id}/clear`)
+  return data
+}
+
 export async function fetchGeoStats() {
   const { data } = await api.get('/geo/stats')
   return data
@@ -93,6 +112,11 @@ export async function updateAdminUser(id, payload) {
   return data
 }
 
+export async function fetchWebsite(id) {
+  const { data } = await api.get(`/websites/${id}`)
+  return data
+}
+
 export async function fetchAdminReviews(params = {}) {
   const { data } = await api.get('/admin/reviews', { params })
   return data
@@ -100,6 +124,11 @@ export async function fetchAdminReviews(params = {}) {
 
 export async function deleteAdminReview(id) {
   const { data } = await api.delete(`/admin/reviews/${id}`)
+  return data
+}
+
+export async function moderateAdminReview(id, status) {
+  const { data } = await api.patch(`/admin/reviews/${id}/moderate`, { status })
   return data
 }
 
@@ -130,5 +159,47 @@ export async function fetchAdminOwnerships(params = {}) {
 
 export async function updateAdminOwnership(id, payload) {
   const { data } = await api.patch(`/admin/ownerships/${id}`, payload)
+  return data
+}
+
+export async function fetchAdminSettings() {
+  const { data } = await api.get('/admin/settings')
+  return data
+}
+
+export async function updateAdminSetting(key, value) {
+  const { data } = await api.patch(`/admin/settings/${key}`, { value })
+  return data
+}
+
+export async function fetchAdminWebsites(params = {}) {
+  const { data } = await api.get('/admin/websites', { params })
+  return data
+}
+
+export async function purchaseOwnership(websiteId) {
+  const { data } = await api.post(`/websites/${websiteId}/ownership`)
+  return data
+}
+
+export async function fetchPayment(paymentId) {
+  const { data } = await api.get(`/payments/${paymentId}`)
+  return data
+}
+
+export async function fetchMyPayments(params = {}) {
+  const { data } = await api.get('/payments/mine', { params })
+  return data
+}
+
+export async function confirmPaymentTxid(paymentId, txid, network = null) {
+  const body = { txid }
+  if (network) body.network = network
+  const { data } = await api.post(`/payments/${paymentId}/confirm-txid`, body)
+  return data
+}
+
+export async function fakePaymentSuccess(paymentId) {
+  const { data } = await api.post(`/payments/${paymentId}/fake-success`)
   return data
 }

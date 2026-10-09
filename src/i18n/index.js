@@ -1,21 +1,45 @@
-import { createI18n } from 'vue-i18n'
 import en from './locales/en.json'
 import ru from './locales/ru.json'
 
-const saved = localStorage.getItem('ls_admin_locale')
-const locale = saved === 'ru' || saved === 'en' ? saved : 'en'
+const messages = { en, ru }
+const listeners = new Set()
 
-export const i18n = createI18n({
-  legacy: false,
-  locale,
-  fallbackLocale: 'en',
-  messages: { en, ru },
-})
-
-export function setLocale(next) {
-  i18n.global.locale.value = next
-  localStorage.setItem('ls_admin_locale', next)
-  document.documentElement.lang = next === 'ru' ? 'ru' : 'en'
+function readSaved() {
+  const saved = localStorage.getItem('ls_admin_locale')
+  return saved === 'ru' ? 'ru' : 'en'
 }
 
-document.documentElement.lang = locale === 'ru' ? 'ru' : 'en'
+let locale = readSaved()
+document.documentElement.lang = locale
+
+export function getLocale() {
+  return locale
+}
+
+export function setLocale(next) {
+  locale = next === 'ru' ? 'ru' : 'en'
+  localStorage.setItem('ls_admin_locale', locale)
+  document.documentElement.lang = locale
+  listeners.forEach((fn) => fn(locale))
+}
+
+export function subscribeLocale(fn) {
+  listeners.add(fn)
+  return () => listeners.delete(fn)
+}
+
+function lookup(dict, path) {
+  return path.split('.').reduce((node, key) => (node == null ? node : node[key]), dict)
+}
+
+export function t(key, vars) {
+  let text = lookup(messages[locale], key)
+  if (typeof text !== 'string') text = lookup(messages.en, key)
+  if (typeof text !== 'string') return key
+  if (vars) {
+    for (const [name, value] of Object.entries(vars)) {
+      text = text.replaceAll(`{${name}}`, String(value))
+    }
+  }
+  return text
+}

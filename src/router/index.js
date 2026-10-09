@@ -48,12 +48,17 @@ const routes = [
         name: 'links',
         component: () => import('@/views/LinksView.vue'),
       },
+      {
+        path: 'settings',
+        name: 'settings',
+        component: () => import('@/views/SettingsView.vue'),
+      },
     ],
   },
 ]
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 })
 
