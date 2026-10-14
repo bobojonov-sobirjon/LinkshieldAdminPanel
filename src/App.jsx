@@ -10,6 +10,7 @@ import LinksPage from '@/pages/LinksPage'
 import LoginPage from '@/pages/LoginPage'
 import ReviewsPage from '@/pages/ReviewsPage'
 import SettingsPage from '@/pages/SettingsPage'
+import StoreLinksPage from '@/pages/StoreLinksPage'
 import UsersPage from '@/pages/UsersPage'
 
 function BootScreen() {
@@ -43,6 +44,7 @@ export default function App() {
           <Route path="ads" element={<AdsPage />} />
           <Route path="faq" element={<FaqPage />} />
           <Route path="settings" element={<SettingsPage />} />
+          <Route path="store" element={<StoreLinksPage />} />
         </Route>
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />

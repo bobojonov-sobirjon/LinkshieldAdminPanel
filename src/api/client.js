@@ -92,6 +92,16 @@ export async function uploadAdsSlotMedia(id, { file, targetCountry, hours }) {
   return data
 }
 
+export async function fetchStoreLinks() {
+  const { data } = await api.get('/admin/store-links')
+  return data
+}
+
+export async function sendStoreLink(platform) {
+  const { data } = await api.post('/admin/store-links/send', { platform })
+  return data
+}
+
 export async function clearAdsSlot(id) {
   const { data } = await api.post(`/ads/slots/${id}/clear`)
   return data

@@ -29,6 +29,7 @@ const groups = [
     label: 'nav.groupContent',
     items: [
       { to: '/ads', label: 'nav.ads', icon: MonitorIcon },
+      { to: '/store', label: 'nav.store', icon: LinkIcon },
       { to: '/faq', label: 'nav.faq', icon: BookIcon },
     ],
   },
@@ -48,6 +49,7 @@ const titles = {
   '/ads': 'nav.ads',
   '/faq': 'nav.faq',
   '/settings': 'nav.settings',
+  '/store': 'nav.store',
 }
 
 export default function ClassicLayout() {

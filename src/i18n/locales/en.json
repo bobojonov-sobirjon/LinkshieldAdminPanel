@@ -16,6 +16,7 @@
     "billing": "Billing",
     "links": "Links",
     "settings": "Settings",
+    "store": "Store links",
     "logout": "Log out",
     "account": "Account"
   },
@@ -204,6 +205,13 @@
     "save": "Save prices",
     "saved": "Saved. Ownership ≈ {ownership} USDT · Ad/day ≈ {ad} USDT",
     "invalidMoney": "Enter a valid amount with cents, e.g. 0.5 or 0.50 (min 0.01)"
+  },
+  "store": {
+    "title": "Store links",
+    "hint": "Send the app store link and see how many times each one was sent.",
+    "apple": "Send Apple link",
+    "play": "Send Play Market link",
+    "sent": "Sent {n} times"
   },
   "common": {
     "loading": "Loading…",
