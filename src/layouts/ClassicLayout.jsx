@@ -15,6 +15,7 @@ const groups = [
     label: 'nav.groupModeration',
     items: [
       { to: '/reviews', label: 'nav.reviews', icon: ChatIcon },
+      { to: '/reports', label: 'nav.reports', icon: FlagIcon },
       { to: '/links', label: 'nav.links', icon: LinkIcon },
     ],
   },
@@ -43,6 +44,7 @@ const titles = {
   '/': 'nav.dashboard',
   '/geo': 'nav.geo',
   '/reviews': 'nav.reviews',
+  '/reports': 'nav.reports',
   '/links': 'nav.links',
   '/users': 'nav.users',
   '/billing': 'nav.billing',
@@ -227,6 +229,14 @@ function ChatIcon() {
   return (
     <Icon>
       <path d="M21 12a8 8 0 0 1-8 8H7l-4 3V12a8 8 0 1 1 18 0z" />
+    </Icon>
+  )
+}
+function FlagIcon() {
+  return (
+    <Icon>
+      <path d="M5 21V4" />
+      <path d="M5 4h11l-1.5 4L16 12H5" />
     </Icon>
   )
 }

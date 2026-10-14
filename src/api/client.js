@@ -137,6 +137,21 @@ export async function deleteAdminReview(id) {
   return data
 }
 
+export async function fetchReview(id) {
+  const { data } = await api.get(`/reviews/${id}`)
+  return data
+}
+
+export async function fetchAdminReports(params = {}) {
+  const { data } = await api.get('/admin/reports', { params })
+  return data
+}
+
+export async function updateAdminReport(id, payload) {
+  const { data } = await api.patch(`/admin/reports/${id}`, payload)
+  return data
+}
+
 export async function moderateAdminReview(id, status) {
   const { data } = await api.patch(`/admin/reviews/${id}/moderate`, { status })
   return data

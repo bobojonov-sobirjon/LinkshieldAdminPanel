@@ -8,6 +8,7 @@ import GeoPage from '@/pages/GeoPage'
 import FaqPage from '@/pages/FaqPage'
 import LinksPage from '@/pages/LinksPage'
 import LoginPage from '@/pages/LoginPage'
+import ReportsPage from '@/pages/ReportsPage'
 import ReviewsPage from '@/pages/ReviewsPage'
 import SettingsPage from '@/pages/SettingsPage'
 import StoreLinksPage from '@/pages/StoreLinksPage'
@@ -38,6 +39,7 @@ export default function App() {
           <Route index element={<DashboardPage />} />
           <Route path="geo" element={<GeoPage />} />
           <Route path="reviews" element={<ReviewsPage />} />
+          <Route path="reports" element={<ReportsPage />} />
           <Route path="links" element={<LinksPage />} />
           <Route path="users" element={<UsersPage />} />
           <Route path="billing" element={<BillingPage />} />

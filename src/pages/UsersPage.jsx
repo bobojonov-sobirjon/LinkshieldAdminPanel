@@ -153,7 +153,7 @@ export default function UsersPage() {
                     </td>
                     <td className="px-4 py-3">
                       <Badge tone={row.is_active ? 'ok' : 'off'}>
-                        {row.is_active ? t('users.active') : t('users.inactive')}
+                        {row.is_active ? t('users.active') : t('users.blocked')}
                       </Badge>
                     </td>
                     <td className="px-4 py-3 text-xs text-gray-500">{formatDate(row.created_at)}</td>
@@ -163,7 +163,7 @@ export default function UsersPage() {
                           <Button onClick={() => saveRole(row)}>{t('users.saveRole')}</Button>
                         ) : null}
                         <Button variant={row.is_active ? 'danger' : 'plain'} onClick={() => toggleActive(row)}>
-                          {row.is_active ? t('users.inactive') : t('users.active')}
+                          {row.is_active ? t('users.block') : t('users.unblock')}
                         </Button>
                       </div>
                     </td>
